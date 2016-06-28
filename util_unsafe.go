@@ -6,6 +6,13 @@ import (
 	"unsafe"
 )
 
+var (
+	MemcacheUseUnsafeStobs = true
+)
+
 func stobs(s string) []byte {
-	return *(*[]byte)(unsafe.Pointer(&s))
+	if MemcacheUseUnsafeStobs {
+		return *(*[]byte)(unsafe.Pointer(&s))
+	}
+	return []byte(s)
 }
