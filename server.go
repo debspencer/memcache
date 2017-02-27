@@ -59,6 +59,8 @@ func (s *ServerList) PickServer(key string) (*Addr, error) {
 		return nil, ErrNoServers
 	}
 	cs := crc32.ChecksumIEEE(stobs(key))
+	// DAS Hack for n7 python and PHP compatibilty
+	cs = (cs >> 16) & 0x7fff
 	return s.addrs[cs%uint32(len(s.addrs))], nil
 }
 
